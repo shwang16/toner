@@ -1,0 +1,73 @@
+.pad{
+  margin: auto;
+  /*position: absolute;*/
+  padding: 80px;
+  text-align: center;
+}
+
+.button{
+  width: 150px;
+  height: 150px;
+  border-radius: 20px;
+  border-width: 5px;
+  border-color: black;
+  outline: none;
+  margin-top: 5px;
+}
+
+.bar{
+  top: 0;
+  right: 0;
+  position: fixed;
+}
+
+.circle{
+  border-radius: 50%;
+  /*border-width: 10px;*/
+  width: 55px;
+  height: 55px;
+  border-color: black;
+  border-width:3px;
+  margin-top: 10px;
+  margin-right: 10px;
+  outline: none;
+}
+#logout {
+  background-color: #BFF7DF;
+}
+
+#logout:hover {
+
+}
+
+img{
+  width: 30px;
+}
+
+#one:active {
+  background-color: #FFC056; /*orange*/
+}
+#two:active {
+  background-color: #544FD3; /*indigo*/
+}
+#three:active {
+  background-color: #90EC5E; /*green*/
+}
+#four:active {
+  background-color: #D852D8; /*pink*/
+}
+#five:active {
+  background-color: #52CDAB; /*seafoam*/
+}
+#six:active {
+  background-color: #9B5DDB; /*purple*/
+}
+#seven:active {
+  background-color: #FFFA66; /*yello*/
+}
+#eight:active {
+  background-color: #5A94CC; /*blue*/
+}
+#nine:active {
+  background-color: #FA2E42; /*red*/
+}
