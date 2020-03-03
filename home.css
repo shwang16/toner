@@ -1,7 +1,11 @@
+body{
+  background-color: #7C9885;
+}
+
 .pad{
-  margin: auto;
+  /* margin: auto; */
   /*position: absolute;*/
-  padding: 80px;
+  padding: 50px;
   text-align: center;
 }
 
@@ -11,7 +15,7 @@
   border-radius: 20px;
   border-width: 5px;
   border-color: black;
-  outline: none;
+  outline: none !important;
   margin-top: 5px;
 }
 
@@ -30,7 +34,7 @@
   border-width:3px;
   margin-top: 10px;
   margin-right: 10px;
-  outline: none;
+  outline: none !important;
 }
 #logout {
   background-color: #BFF7DF;
