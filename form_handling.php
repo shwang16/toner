@@ -1,5 +1,5 @@
 <?php
-require('connect-db.php');
+require('connectdb.php');
 /*************************/
 /** get's users password **/
 function getPassword($userID){
