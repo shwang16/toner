@@ -22,8 +22,10 @@ session_start();
         font-size: 80px;
 
     }
+    .error_message{color: #D4E4BC; }
 
-
+   
+    
 </style>
 <title> Create an Account </title>
 </head>
@@ -32,10 +34,12 @@ session_start();
     <div class = "container">
     <h1>Create an Account </h1>
 
-    <form action= "<?php $_SERVER['PHP_SELF']?>" name = "CreateAccount" method = "post" onSubmit = "return checkPass(this)" >
+    <form action= "<?php $_SERVER['PHP_SELF']?>" name = "CreateAccount" method = "post" onSubmit = "return checkAccount(this)" >
     <div class = "form-group">
         <label for ="user">Enter username between 8 and 25 characters: </label>
-        <input type = "text" name = "userID" class = "form-control" style = 'margin:auto' input style = "width:150px" placeholder = "Enter username.">
+        <input type = "text" id = "user" name = "userID" class = "form-control" style = 'margin:auto' input style = "width:150px" placeholder = "Enter username.">
+        <span class = "error_message" id = "user_message" > </span>
+
     </div>
     <div class = "form-group">
         <label for ="password">Enter password between 8 and 25 characters: </label>
@@ -51,14 +55,25 @@ session_start();
 </form>
 
 <script>
- var p1 = document.getElementById('pwd');
-    var p2 = document.getElementById('pwd2');
-function checkPass(){
+var p1 = document.getElementById('pwd');
+var p2 = document.getElementById('pwd2');
+var user = document.getElementById('user');
+function checkAccount(){
     // var p1 = document.getElementById('pwd');
     // var p2 = document.getElementById('pwd2');
     document.getElementById("pw_message").innerHTML = "";
     document.getElementById("pw_message2").innerHTML = "";
-    if(p1.value == ""){
+    document.getElementById("user_message").innerHTML = "";
+
+    if(user.value == ""){
+        document.getElementById("user_message").innerHTML = "Please enter username.";
+        return false;
+    }
+    else if(user.value.length < 8 || user.value.length > 25){
+        document.getElementById("user_message").innerHTML = "Please enter username between 8 and 25 characters.";
+        return false;
+    }
+    else if(p1.value == ""){
         document.getElementById("pw_message").innerHTML = "Please enter password.";
         return false;
     }
