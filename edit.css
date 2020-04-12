@@ -25,6 +25,7 @@ body{
   outline: none !important;
   margin-top: 5px;
   border-style: double;
+
 }
 
 /* .button:active{
@@ -68,6 +69,19 @@ body{
 .selected{
   border-color: orange !important;
 
+}
+
+#myDIV {
+  display: none;
+  width: 50%;
+  padding: 50px 0;
+  text-align: center;
+  background-color: #909090;
+  margin-top: 5px;
+  align-content: center;
+  margin-left: 25%;
+  border-color: black;
+  border-width: 5px;
 }
 
 #edit {
