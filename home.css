@@ -36,12 +36,8 @@ body{
   margin-right: 10px;
   outline: none !important;
 }
-#logout {
+#home{
   background-color: #BFF7DF;
-}
-
-#logout:hover {
-
 }
 
 img{

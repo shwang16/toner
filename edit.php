@@ -80,6 +80,7 @@ $pad = getPad();
   <button class="circle" id="edit">
     <img src="images/edit.svg">
   </button>
+  <br>
   <button class="circle" id="logout">
     <img src="images/logout.svg">
   </button>

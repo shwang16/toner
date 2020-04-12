@@ -22,8 +22,8 @@ session_start();
         font-size: 80px;
 
     }
-   
-    
+
+
 </style>
 <title> Create an Account </title>
 </head>
@@ -60,12 +60,12 @@ function checkPass(){
     document.getElementById("pw_message2").innerHTML = "";
     if(p1.value == ""){
         document.getElementById("pw_message").innerHTML = "Please enter password.";
-        return false; 
+        return false;
     }
     else if((p1.value.length < 8 || p1.value.length > 25)){
         document.getElementById("pw_message").innerHTML = "Password must be between 8 and 25 characters.";
         return false;
-    } 
+    }
     else if (p2.value == ""){
         document.getElementById("pw_message2").innerHTML = "Please enter confirmation password.";
         return false;
@@ -80,62 +80,63 @@ function checkPass(){
      }
 }
 
-    
 
-    
-  
+
+
+
 </script>
 
 
-<?php 
+<?php
 /*************************/
 /** insert user into table **/
-function addUser($userID, $pwd)
-{
+function addUser($userID, $pwd){
+  global $db;
+  if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $pwd = htmlspecialchars($_POST['pwd']);
+    $hash_pwd = password_hash($pwd, PASSWORD_BCRYPT);
+    $query = "INSERT INTO user
+            (username, password) VALUES (:userID, :hash_pwd)";
+    if ($_POST['userID'] !== getuser($_POST['userID']) ){
+      $statement = $db->prepare($query);
+      $statement->bindValue(':userID', $userID);
+      $statement->bindValue(':hash_pwd', $hash_pwd);
+      $statement->execute();
+      $statement->closeCursor();
+      $_SESSION['user_id'] = getpk($_POST['userID'],$hash_pwd);
 
-   global $db;
-   if ($_SERVER['REQUEST_METHOD'] == 'POST')
-  {
-   $pwd = htmlspecialchars($_POST['pwd']);
-   $hash_pwd = password_hash($pwd, PASSWORD_BCRYPT);
-   
-   $query = "INSERT INTO user 
-             (username, password) VALUES (:userID, :hash_pwd)";
-
-   
-   if ($_POST['userID'] !== getuser($_POST['userID']) ){
-   $statement = $db->prepare($query);
-   $statement->bindValue(':userID', $userID);
-   $statement->bindValue(':hash_pwd', $hash_pwd);
-   $statement->execute();
-   $statement->closeCursor();
-   $_SESSION['user_id'] = getpk($_POST['userID'],$hash_pwd);
-        
-  }
-  else{
+      newPad();
+    }
+    else{
       echo "Username already exists.";
-  }
+    }
  }
+}
 
+function newPad(){
+  global $db;
+  $user_id = $_SESSION['user_id'];
+  $query = "INSERT INTO pad (user_id, tone1, tone2, tone3, tone4, tone5, tone6, tone7, tone8, tone9)
+            VALUES (:id, 1, 2, 3, 4, 5, 6, 7, 8, 9)";
+  $statement = $db->prepare($query);
+  //$statement->bindValue(':tone', $tone_name);
+  $statement->bindValue(':id', $user_id);
+  $statement->execute();
+  $statement->closeCursor();
 }
 ?>
-
-
-
 <?php
-
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if(!empty($_POST['action']) && ($_POST['action'] == 'Create Account')){
 
         if (!empty($_POST['userID']) && !empty($_POST['pwd']))
       {
-         
+
         addUser($_POST['userID'], $_POST['pwd']);
         header("Location: login.php?action=add_user");
-         
-        
+
+
       }
    }
 }
@@ -144,4 +145,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 </div>
 
 </html>
-
