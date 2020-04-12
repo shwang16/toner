@@ -1,5 +1,5 @@
 <?php
-require('connect-db.php');
+require('connectdb.php');
 require('form_handling.php');
 ?>
 <?php
