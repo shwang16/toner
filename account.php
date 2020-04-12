@@ -1,0 +1,147 @@
+<?php
+require('connect-db.php');
+require('form_handling.php');
+?>
+<?php
+session_start();
+?>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset = "utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link rel="stylesheet" href="styles.css">
+<style>
+    body{background color: #7C9885;
+        text-align: center;
+    }
+    h1 {color: #28666E;
+        text-align:center;
+        font-weight: bold;
+        padding-top:100px;
+        font-size: 80px;
+
+    }
+   
+    
+</style>
+<title> Create an Account </title>
+</head>
+
+<body>
+    <div class = "container">
+    <h1>Create an Account </h1>
+
+    <form action= "<?php $_SERVER['PHP_SELF']?>" name = "CreateAccount" method = "post" onSubmit = "return checkPass(this)" >
+    <div class = "form-group">
+        <label for ="user">Enter username between 8 and 25 characters: </label>
+        <input type = "text" name = "userID" class = "form-control" style = 'margin:auto' input style = "width:150px" placeholder = "Enter username.">
+    </div>
+    <div class = "form-group">
+        <label for ="password">Enter password between 8 and 25 characters: </label>
+        <input type = "password" id = "pwd" name = "pwd" class = "form-control" style = 'margin:auto' placeholder = "Enter password.">
+        <span class = "error_message" id = "pw_message" > </span>
+    </div>
+    <div class = "form-group">
+        <label for ="password">Re-enter Password: </label>
+        <input type = "password" id = "pwd2" name = "pwd2" class = "form-control" style = 'margin:auto' placeholder = "Re-enter password.">
+        <span class = "error_message" id = "pw_message2" > </span>
+    </div>
+    <input type = "submit" name = "action" value = "Create Account" class = "btn btn-info" />
+</form>
+
+<script>
+ var p1 = document.getElementById('pwd');
+    var p2 = document.getElementById('pwd2');
+function checkPass(){
+    // var p1 = document.getElementById('pwd');
+    // var p2 = document.getElementById('pwd2');
+    document.getElementById("pw_message").innerHTML = "";
+    document.getElementById("pw_message2").innerHTML = "";
+    if(p1.value == ""){
+        document.getElementById("pw_message").innerHTML = "Please enter password.";
+        return false; 
+    }
+    else if((p1.value.length < 8 || p1.value.length > 25)){
+        document.getElementById("pw_message").innerHTML = "Password must be between 8 and 25 characters.";
+        return false;
+    } 
+    else if (p2.value == ""){
+        document.getElementById("pw_message2").innerHTML = "Please enter confirmation password.";
+        return false;
+    }
+    else if (p1.value != p2.value){
+        document.getElementById("pw_message2").innerHTML = "Passwords are not the same.";
+        return false;
+    }
+    else{
+        document.getElementById("pw_message").innerHTML = "";
+        return true;
+     }
+}
+
+    
+
+    
+  
+</script>
+
+
+<?php 
+/*************************/
+/** insert user into table **/
+function addUser($userID, $pwd)
+{
+
+   global $db;
+   if ($_SERVER['REQUEST_METHOD'] == 'POST')
+  {
+   $pwd = htmlspecialchars($_POST['pwd']);
+   $hash_pwd = password_hash($pwd, PASSWORD_BCRYPT);
+   
+   $query = "INSERT INTO user 
+             (username, password) VALUES (:userID, :hash_pwd)";
+
+   
+   if ($_POST['userID'] !== getuser($_POST['userID']) ){
+   $statement = $db->prepare($query);
+   $statement->bindValue(':userID', $userID);
+   $statement->bindValue(':hash_pwd', $hash_pwd);
+   $statement->execute();
+   $statement->closeCursor();
+   $_SESSION['user_id'] = getpk($_POST['userID'],$hash_pwd);
+        
+  }
+  else{
+      echo "Username already exists.";
+  }
+ }
+
+}
+?>
+
+
+
+<?php
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    if(!empty($_POST['action']) && ($_POST['action'] == 'Create Account')){
+
+        if (!empty($_POST['userID']) && !empty($_POST['pwd']))
+      {
+         
+        addUser($_POST['userID'], $_POST['pwd']);
+        header("Location: login.php?action=add_user");
+         
+        
+      }
+   }
+}
+?>
+</body>
+</div>
+
+</html>
+
