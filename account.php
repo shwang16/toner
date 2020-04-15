@@ -1,5 +1,5 @@
 <?php
-require('connect-db.php');
+require('connectdb.php');
 require('form_handling.php');
 ?>
 <?php
@@ -24,8 +24,8 @@ session_start();
     }
     .error_message{color: #D4E4BC; }
 
-   
-    
+
+
 </style>
 <title> Create an Account </title>
 </head>
@@ -121,6 +121,7 @@ function addUser($userID, $pwd){
       $_SESSION['user_id'] = getpk($_POST['userID'],$hash_pwd);
 
       newPad();
+      header("Location: login.php?action=add_user");
     }
     else{
       echo "Username already exists.";
@@ -149,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
       {
 
         addUser($_POST['userID'], $_POST['pwd']);
-        header("Location: login.php?action=add_user");
+
 
 
       }
