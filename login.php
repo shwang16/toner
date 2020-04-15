@@ -1,5 +1,5 @@
 <?php
-require('connect-db.php');
+require('connectdb.php');
 // require('account.php');
 ?>
 
@@ -35,7 +35,7 @@ require('connect-db.php');
 <input type = "submit" name = "action" value = "Login" class = "btn btn-info" />
 </div>
 
-    
+
 
 	</form>
 
@@ -60,20 +60,20 @@ require('connect-db.php');
           }
        }, false);
     }());
-  
-  
+
+
   var user = document.getElementById("username")
 
   function checkUser(){
 
-  
+
     if(this.value.length < 8 || this.value.length > 25){
       document.getElementById("user_message").innerHTML = "Username must be between 8 and 25 characters.";
-    
+
     }
     else{
       document.getElementById("user_message").innerHTML = "";
-   
+
     }
 
   }
@@ -81,7 +81,7 @@ require('connect-db.php');
     user.addEventListener('blur', checkUser, false);
   }
 </script>
-<?php 
+<?php
 
 session_start();
 ?>
@@ -91,20 +91,20 @@ function authenticate()
   require('form_handling.php');
   global $mainpage;
   global $db;
-  
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST')
   {
     $hash_pwd = getPassword($_POST['userID']);
     $pwd = htmlspecialchars($_POST['pwd']);
     //echo '<br/> password_verify =' . password_verify($pwd, getPassword($_POST['userID'])) . "<br/>";
-    
+
     if (password_verify($pwd, $hash_pwd))
     {
       echo "password matches <br>";
 
-      header("Location: " . $mainpage); 
+      header("Location: " . $mainpage);
       $_SESSION['user_id'] = getpk($_POST['userID'], $hash_pwd);
-      
+
 
     }
     else {
@@ -112,7 +112,7 @@ function authenticate()
     }
   }
 }
-$mainpage = "home.php"; 
+$mainpage = "home.php";
 authenticate();
 
 ?>
