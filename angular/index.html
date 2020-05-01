@@ -1,0 +1,121 @@
+<!doctype html>
+<!-- Author: Shirley Wang -->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Edit Toner</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+  <app-root></app-root>
+</body>
+
+<script type="text/javascript">
+var url_string = window.location.href;
+var url = new URL(url_string);
+var c = url.searchParams.get("user");
+  var highlighted = "1";
+  
+  var high = (id) => {
+    //console.log("clicked");
+    document.getElementById(highlighted).classList.remove("selected");
+    document.getElementById("" + id).classList.add("selected");
+    highlighted = id;
+    //console.log(highlighted);
+  };
+  
+  var home = () => { window.location.href='http://localhost/toner/home.php?user='+c; };
+  //document.getElementById("home").addEventListener("click", home);
+  
+  var logout = () => { window.location.href='http://localhost/toner/login.php'; };
+  
+  function ajaxPost(nm, fq)
+  {
+      xob = GetXmlHttpObject();
+      if (xob == null)
+      {
+          alert ("Your browser does not support XMLHTTP!");
+          return;
+      }
+      var url = "http://localhost/toner/update.php?call=tone";
+      var datatosend = "name=" + nm + "&freq=" + fq;
+  
+      xob.onreadystatechange = function(){
+          if(xob.readyState === 4){
+              if(xob.status === 200){
+              var res = xob.responseText; //text, XML, or JSON
+              console.log(res);
+              }
+              else{
+              console.log("xhr failed");
+              }
+          }
+          else{
+          console.log("not ready yet");
+          }
+      }
+     xob.open('POST', url, true);
+     xob.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+     xob.send(datatosend);
+  }
+  
+  function checkForm(){
+    var name = document.getElementById("tone_name").value;
+    var freq = document.getElementById("freq").value;
+    var check = /^\s*-?[1-9]\d*(\.\d{1,2})?\s*$/;
+    if(name == ""){
+      document.getElementById("tone_name").value = "";
+      document.getElementById("name_message").innerHTML = "Name field is empty."
+      return false;
+    }
+    else if(name.length > 6){
+      document.getElementById("tone_name").value = name;
+      document.getElementById("name_message").innerHTML = "Name must be less than 6 characters."
+      return false;
+    }
+    else if(!freq.match(check)){
+      document.getElementById("freq").value = freq;
+      document.getElementById("freq_message").innerHTML = "Frequency must be a valid value (0-999.99)."
+      return false;
+    }
+  
+    ajaxPost(name, freq);
+    console.log(name + " " + freq);
+    window.location.reload();
+    return true;
+  }
+  
+  function update_pad(name, id){
+    document.getElementById(highlighted).innerHTML = name;u
+    var tone = "tone" + highlighted;
+    var toneID = id;
+    $.ajax({
+       url: "update.php?call=pad",
+       type: "POST",
+       data: {update_tone: tone, tone_id: toneID},
+       success: function(result){
+         console.log(result);
+       }
+    })
+  }
+  
+  function GetXmlHttpObject()
+  {
+     // Create an XMLHttpRequest object
+    
+     if (window.XMLHttpRequest)
+     {  // code for IE7+, Firefox, Chrome, Opera, Safari
+        return new XMLHttpRequest();
+     }
+     if (window.ActiveXObject)
+     { // code for IE6, IE5
+       return new ActiveXObject ("Microsoft.XMLHTTP");
+     }
+     return null;
+  }
+  
+  </script>
+
+</html>

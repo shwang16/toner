@@ -1,0 +1,93 @@
+<head>
+<title>Toner</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- <link rel="stylesheet" type="text/css" href="edit.css"> -->
+
+</head>
+<div class="row">
+  <div class="col-md-6" >
+    <div class="pad">
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==1}" (click)="select(1)">
+      {{ pad[0] }}
+      </button>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==2}" (click)="select(2)">
+      {{pad[1]}}
+      </button>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==3}" (click)="select(3)">
+      {{pad[2]}}
+      </button>
+      <br>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==4}" (click)="select(4)">
+      {{pad[3]}}
+      </button>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==5}" (click)="select(5)">
+      {{pad[4]}}
+      </button>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==6}" (click)="select(6)">
+      {{pad[5]}}
+      </button>
+      <br>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==7}" (click)="select(7)">
+      {{pad[6]}}
+      </button>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==8}" (click)="select(8)">
+      {{pad[7]}}
+      </button>
+      <button [style]="{'font-size':'20px'}" [class]="{'button': true, 'selected':highlighted==9}" (click)="select(9)">
+      {{pad[8]}}
+      </button>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="sounds">
+      <button *ngFor="let tone of tones[0]" 
+      class="notes" id={{tone.id}} 
+      (click)=updatePad(tone.id)>
+      {{ tone.name }}
+      </button>
+      
+      <button class="notes" (click)=addTone()><img src="http://localhost/toner/images/add.svg"></button>
+    </div>
+
+    <div id="myDIV" *ngIf="clicked == true">
+      <h3>Add a Tone</h3>
+      <form action="edit.php" name="add_tone" method="post" onsubmit="return checkForm()">
+        <div class="form-group">
+    		<input type="text" placeholder="name" id="tone_name" name="toneName" value=""><br>
+        <span class="error_message" id="name_message"></span>
+        </div>
+        <div class="form-group">
+    		<input type="text" placeholder="(Hz)" id="freq" name="frequency"><br>
+        <span class="error_message" id="freq_message"></span>
+        </div>
+        <a target="_blank" href='https://pages.mtu.edu/~suits/notefreqs.html'>Frequency Chart</a><br><br>
+        <div class="form-group">
+        <button type="submit" value="addTone">Add</button><br>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="bar">
+  <button class="circle" id="home" onclick="home()">
+    <img src="http://localhost/toner/images/house.svg">
+  </button>
+  <br>
+  <button class="circle" id="edit">
+    <img src="http://localhost/toner/images/edit.svg">
+  </button>
+  <br>
+  <button class="circle" id="logout" onclick="logout()">
+    <img src="http://localhost/toner/images/logout.svg">
+  </button>
+</div>
+
+
+
